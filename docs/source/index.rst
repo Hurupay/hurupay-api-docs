@@ -1,17 +1,11 @@
-Welcome to Hurupay's API Documentation!
-======================================
+Overview
+========
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+**Hurupay** is an on demand API service that nallows fintechs to on and off ramp stable coins like `cUSD <https://blog.celo.org/celo-dollars-powerful-new-digital-money-in-circulation-b4147eda2d10 />`_ and `USDT <https://tether.to/en />`_.
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+.. .. note::
 
-.. note::
-
-   This project is under active development.
+..    This project is under active development.
 
 Contents
 --------
