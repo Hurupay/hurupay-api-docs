@@ -41,7 +41,11 @@ Endpoints
 1. POST /collections/mobile/initialize_transaction
 ~~~~~~~~~
 
-Request URL POST 
+Overview
+~~~~~~~
+This endpoint is used to initialize a mobile money transaction. It is used to initiate a mobile money transaction and return a transaction reference that can be used to retrieve the transaction status.
+
+POST Request URL 
 ~~~~~~~~~
 .. raw:: html
 
@@ -100,7 +104,11 @@ Later after successful execution, your webhook url will be called and you'll get
 2. GET /collections/query_transaction/{collectionRequestId}
 ~~~~~~~~~
 
-Request URL GET 
+Overview
+~~~~~~~
+This API is used to query the status of a collection request.
+
+GET Request URL 
 ~~~~~~~~~
 .. raw:: html
 
@@ -135,9 +143,23 @@ Initially you'll get an immediate feedback like the one below if your API reques
       {
          "ResultCode": 1,
          "PartnerRequestID": "66386452d8d95fb8b8870859",
-         "CheckoutRequestID": "7cf7a5c5-7c69-4ef4-8aa1-2e3371a97a47",
+         "CollectionRequestID": "7cf7a5c5-7c69-4ef4-8aa1-2e3371a97a47",
          "ResultDescription": "The service request has been proccesed successfully"
       }
+
+Result Code Descriptions
+~~~~~~~~~~~~~~~~~~~~~~~~
++-------------+------------------------------------------------+
+| Status Code | Message                                        | 
++=============+================================================+
+| 0           | The collection transaction is pending          | 
++-------------+------------------------------------------------+
+| 1032        | Transaction process was cancelled.             | 
++-------------+------------------------------------------------+
+| 1           | The collection transaction was successfull     | 
++-------------+------------------------------------------------+
+
+
 
 .. autosummary::
    :toctree: generated
