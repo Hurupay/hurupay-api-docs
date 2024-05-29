@@ -6,33 +6,140 @@ Collections
 Mobile Money
 ------------
 
-To use Lumache, first install it using pip:
+Overview
+^^^^^^^^
+The API service facilitates seamless integration of various mobile money wallets and mobile services across listed countries. It supports notable providers such as Safaricom and MTN, enabling clients to streamline the process of converting local currencies into equivalent stablecoin dollars. This service is designed to assist with on-ramping, ensuring a smooth transition into the digital currency ecosystem.
 
-.. code-block:: console
+.. note::
+   The mobile money service is currently available in:
 
-   (.venv) $ pip install lumache
+   * `Kenya (Safaricom M-pesa mobile money service)`,
+   * `Ghana (MTM momo mobile money service)`,
+   * `Nigeria (MTM momo mobile money service)`,
+   * `Uganda (MTM momo mobile money service)`, 
+   * `Tanzania (MTM momo mobile money service)`, 
+   * `Rwanda (MTM momo mobile money service).`
 
-.. Creating recipes
-.. ----------------
+Base URL
+^^^^^^^^
+The URL for collections API is https://api.hurupay.com
 
-.. To retrieve a list of random ingredients,
-.. you can use the ``lumache.get_random_ingredients()`` function:
+Authentication
+^^^^^^^^^^^^^^
+The collection API uses client's apikey **(sandbox key or production key)**. Include your `client key` and `x-target-environment` in each request headers to the API.
 
-.. .. autofunction:: lumache.get_random_ingredients
+.. note::
 
-.. The ``kind`` parameter should be either ``"meat"``, ``"fish"``,
-.. or ``"veggies"``. Otherwise, :py:func:`lumache.get_random_ingredients`
-.. will raise an exception.
+      X-Target-Environment value should match your private key:
 
-.. .. autoexception:: lumache.InvalidKindError
+      * For sandbox key, use `sandbox` as X-Target-Environment
+      * For production key, use `production` as X-Target-Environment
 
-.. For example:
+Endpoints
+^^^^^^^^
 
-.. >>> import lumache
-.. >>> lumache.get_random_ingredients()
-.. ['shells', 'gorgonzola', 'parsley']
+1. POST /collections/mobile/initialize_transaction
+~~~~~~~~~
 
-.. .. autosummary::
-..    :toctree: generated
+Request URL POST 
+~~~~~~~~~
+.. raw:: html
 
-..    lumache
+      <p style="color: red;">https://api.hurupay.com/collections/mobile/initialize_transaction</p>
+
+Request Headers
+~~~~~~~~~
+
+.. code-block:: javascript
+
+    headers: {
+        Authorization: `Bearer ${your-key}`,
+        "Content-Type": "application/json"
+        "X-Target-Environment": "your environment"
+    }
+
+Request Body
+~~~~~~~~~
+
+.. code-block:: javascript
+
+   {
+    "PhoneNumber":"254704407239",
+    "EmailAddress":"xyz@example.com",
+    "TransactionMethod":"MobileMoney",
+    "Amount":"10",
+    "ISOCurrency":"KES",
+    "WalletAddress":"0x67279306F1e188FD6bEE167203E1bE49661755Bf",
+    "DigitalAsset":"cUSD"
+   }
+
+Response
+~~~~~~~~
+Initially you'll get an immediate feedback like the one below if your API request is successfull.
+
+.. raw:: html
+
+    <div>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PartnerRequestID:</span> [string] Client id.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">CollectionRequestID:</span> [string] Unique collection request id.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResponseCode:</span> [number] Response code.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResponseDescription:</span> [string] Response code description.</p>
+    </div>
+
+.. code-block:: javascript
+      
+      {
+         "PartnerRequestID": "66386452d8d95fb8b8870859",
+         "CollectionRequestID": "e3e73daf-e257-4f90-9077-291471ec6157",
+         "ResponseCode": 1,
+         "ResponseDescription": "Collection request accepted for processing"
+      }
+
+Later after successful execution, your webhook url will be called and you'll get full overview of the collection request initiated. Check :doc:`webhooks` for more information
+
+2. GET /collections/query_transaction/{collectionRequestId}
+~~~~~~~~~
+
+Request URL GET 
+~~~~~~~~~
+.. raw:: html
+
+      <p style="color: red;">https://api.hurupay.com/collections/query_transaction/{collectionRequestId}</p>
+
+Request Headers
+~~~~~~~~~
+
+.. code-block:: javascript
+
+    headers: {
+        Authorization: `Bearer ${your-key}`,
+        "Content-Type": "application/json"
+        "X-Target-Environment": "your environment"
+    }
+
+Response
+~~~~~~~~
+Initially you'll get an immediate feedback like the one below if your API request is successfull.
+
+.. raw:: html
+
+    <div>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResultCode:</span> [number] Collection request code status.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PartnerRequestID:</span> [string] Client id.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">CollectionRequestID:</span> [string] Collection request Id.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResultDescription:</span> [string] Status code result description.</p>
+    </div>
+
+.. code-block:: javascript
+      
+      {
+         "ResultCode": 1,
+         "PartnerRequestID": "66386452d8d95fb8b8870859",
+         "CheckoutRequestID": "7cf7a5c5-7c69-4ef4-8aa1-2e3371a97a47",
+         "ResultDescription": "The service request has been proccesed successfully"
+      }
+
+.. autosummary::
+   :toctree: generated
+
+   lumache

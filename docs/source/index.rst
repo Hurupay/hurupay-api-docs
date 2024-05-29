@@ -15,3 +15,4 @@ Contents
    collections
    payouts
    exchange_rates
+   webhooks
