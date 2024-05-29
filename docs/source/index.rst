@@ -1,5 +1,5 @@
-Welcome to Lumache's documentation!
-===================================
+Welcome to Hurupay's API Documentation!
+======================================
 
 **Lumache** (/lu'make/) is a Python library for cooks and food lovers
 that creates recipes mixing random ingredients.
@@ -17,6 +17,7 @@ Contents
 --------
 
 .. toctree::
-
-   usage
-   api
+   home
+   collections
+   payouts
+   exchange_rates

@@ -1,5 +1,5 @@
-Usage
-=====
+Payouts
+=======
 
 .. _installation:
 

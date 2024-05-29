@@ -2,9 +2,9 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'Hurupay API Documention'
+copyright = '2024, Hurupay Inc'
+author = 'Hurupay Inc'
 
 release = '0.1'
 version = '0.1.0'
