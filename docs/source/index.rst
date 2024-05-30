@@ -11,7 +11,6 @@ Contents
 --------
 
 .. toctree::
-   home
    collections
    payouts
    exchange_rates

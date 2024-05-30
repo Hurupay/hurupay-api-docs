@@ -4,7 +4,7 @@ Exchange Rates
 
 Overview
 ^^^^^^^^
-The exchange rate API service allows clients to relay the deposit and withdrawal rates for on ramp and off ramp respectively, during a certain time period.
+The exchange rate API service allows clients to calculate the amount of digital asset tokens or fiat amount that will be deposited to user wallet address account or mobile money respectively in realtime.
 
 Base URL
 ^^^^^^^^
