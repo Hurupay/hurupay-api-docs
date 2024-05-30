@@ -43,7 +43,7 @@ Endpoints
 
 Overview
 ~~~~~~~
-This endpoint is used to facilitate digital asset or tokens deposit to user's wallet address. The phone number provided in the request body will receive a request to pay prompt, If the user completes the request succesfully, Hurupay will credit the user's `Wallet address` with respective digital asset amount both provided in the request body. Token amount is according to Hurupay's :doc:`exchange_rates` API
+This endpoint is used to facilitate digital asset or tokens deposit to user's wallet address. The phone number provided in the request body will receive a request to pay prompt, If the user completes the request succesfully, Hurupay will credit the user's `Wallet address` with respective digital asset both provided in the request body. Token amount is according to Hurupay's :doc:`exchange_rates` API
 
 POST Request URL 
 ~~~~~~~~~
