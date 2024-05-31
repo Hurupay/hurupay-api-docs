@@ -22,7 +22,7 @@ The API service facilitates seamless integration of various mobile money wallets
 
 Base URL
 ^^^^^^^^
-The URL for collections API is https://api.hurupay.com
+The URL for collections API is https://api.hurupay.com/v1
 
 Authentication
 ^^^^^^^^^^^^^^

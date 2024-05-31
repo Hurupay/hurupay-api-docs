@@ -8,7 +8,7 @@ The exchange rate API service allows clients to calculate the amount of digital 
 
 Base URL
 ^^^^^^^^
-The URL for the On demand API is https://api.hurupay.com/exchange
+The URL for the On demand API is https://api.hurupay.com/exchange/v1
 
 Authentication
 ^^^^^^^^
