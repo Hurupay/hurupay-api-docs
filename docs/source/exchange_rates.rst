@@ -44,7 +44,7 @@ Example Request
 
 .. code-block:: console
     
-    GET Request https://api.hurupay.com/exchange/deposit_rate?to=KES
+    GET Request https://api.hurupay.com/v1/exchange/deposit_rate?to=KES
 
 Example Response:
 
@@ -72,7 +72,7 @@ Example Request
 
 .. code-block:: console
 
-    GET Request https://api.hurupay.com/exchange/withdrawal_rate?to=KES
+    GET Request https://api.hurupay.com/v1/exchange/withdrawal_rate?to=KES
 
 
 Example Response:

@@ -49,7 +49,7 @@ POST Request URL
 ~~~~~~~~~
 .. raw:: html
 
-      <p style="color: red;">https://api.hurupay.com/collections/mobile/initialize_transaction</p>
+      <p style="color: red;">https://api.hurupay.com/v1/collections/mobile/initialize_transaction</p>
 
 Request Headers
 ~~~~~~~~~
@@ -112,7 +112,7 @@ GET Request URL
 ~~~~~~~~~
 .. raw:: html
 
-      <p style="color: red;">https://api.hurupay.com/collections/query_transaction/{collectionRequestId}</p>
+      <p style="color: red;">https://api.hurupay.com/v1/collections/query_transaction/{collectionRequestId}</p>
 
 Request Headers
 ~~~~~~~~~
