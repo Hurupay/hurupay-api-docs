@@ -133,12 +133,12 @@ You'll get an immediate feedback like the one below if your API request is succe
 
 Result Code Descriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~
-+-------------+------------------------------------------------+
-| Status Code | Message                                        | 
-+=============+================================================+
-| 0           | The payout request transaction is pending      | 
-+-------------+------------------------------------------------+
-| 1032        | Transaction process was cancelled.             | 
-+-------------+------------------------------------------------+
-| 1           | The collection transaction was successfull     | 
-+-------------+------------------------------------------------+
++-------------+-------------------------------------------------------+
+| Status Code | Message                                               | 
++=============+=======================================================+
+| 0           | The payout request transaction is pending             | 
++-------------+-------------------------------------------------------+
+| 1032        | Payout request was deemed invalid due to some reasons | 
++-------------+-------------------------------------------------------+
+| 1           | The collection transaction was successfull            | 
++-------------+-------------------------------------------------------+
