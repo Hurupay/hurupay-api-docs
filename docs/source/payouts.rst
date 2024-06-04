@@ -62,6 +62,8 @@ Request Response
 ~~~~~~~~
 Initially you'll get an immediate feedback like the one below if your API request is successfull.
 
+Later after successful execution, your webhook url will be called and you'll get full overview of the payout request initiated. Check :doc:`webhooks` for more information
+
 .. raw:: html
 
     <div>
@@ -109,7 +111,7 @@ Request Headers
 
 Response
 ~~~~~~~~
-Initially you'll get an immediate feedback like the one below if your API request is successfull.
+You'll get an immediate feedback like the one below if your API request is successfull.
 
 .. raw:: html
 

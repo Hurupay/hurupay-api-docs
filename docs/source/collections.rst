@@ -127,7 +127,7 @@ Request Headers
 
 Response
 ~~~~~~~~
-Initially you'll get an immediate feedback like the one below if your API request is successfull.
+You'll get an immediate feedback like the one below if your API request is successfull.
 
 .. raw:: html
 
