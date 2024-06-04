@@ -77,7 +77,7 @@ Request Body
     "DigitalAsset":"cUSD"
    }
 
-Response
+Request Response
 ~~~~~~~~
 Initially you'll get an immediate feedback like the one below if your API request is successfull.
 
