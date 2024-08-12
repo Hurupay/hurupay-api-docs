@@ -1,42 +1,32 @@
-Collections
-===========
+Collections (On Ramp)
+====================
 
 .. _mobile_money:
 
-Mobile Money
-------------
+On Ramp Mobile Money
+-------------------
 
 Overview
 ^^^^^^^^
-The API service facilitates seamless integration of various mobile money wallets and mobile services across listed countries. It supports notable providers such as Safaricom and MTN, enabling clients to streamline the process of converting local currencies into equivalent stablecoin dollars. This service is designed to assist with on-ramping, ensuring a smooth transition into the digital currency ecosystem.
+The API service facilitates seamless integration of various mobile money wallets and mobile services across listed countries. It supports notable providers such as Safaricom, Airtel,MTN, TIGO enabling clients to streamline the process of converting local currencies into equivalent stablecoin dollars. This service is designed to assist with on-ramping, ensuring a smooth transition into the digital currency ecosystem.
 
 .. note::
    The mobile money service is currently available in:
 
-   * `Kenya (Safaricom M-pesa mobile money service)`,
-   * `Ghana (MTM momo mobile money service)`,
-   * `Nigeria (MTM momo mobile money service)`,
-   * `Uganda (MTM momo mobile money service)`, 
-   * `Tanzania (MTM momo mobile money service)`, 
-   * `Rwanda (MTM momo mobile money service).`
+   * `Kenya (MPESA)`,
+   * `Ghana (MTN,VODAFONE,TIGO,AIRTEL)`,
+   * `Tanzania (MTN, VODACOM, TIGO, AIRTEL)`, 
 
 Base URL
-^^^^^^^^
-The URL for collections API is https://api.hurupay.com/v1
+
+The BASE URL is https://sandbox.hurupay.com/v1
 
 Authentication
 ^^^^^^^^^^^^^^
-The collection API uses client's apikey **(sandbox key or production key)**. Include your `client key` and `x-target-environment` in each request headers to the API.
-
-.. note::
-
-      X-Target-Environment value should match your private key:
-
-      * For sandbox key, use `sandbox` as X-Target-Environment
-      * For production key, use `production` as X-Target-Environment
+The collection API uses partner's apikey **(sandbox key or production key)**. Include your `partner api key` in each request headers to the API.
 
 Endpoints
-^^^^^^^^
+^^^^^^^^^
 
 1. POST /collections/mobile/initialize_transaction
 ~~~~~~~~~
@@ -49,7 +39,7 @@ POST Request URL
 ~~~~~~~~~
 .. raw:: html
 
-      <p style="color: red;">https://api.hurupay.com/v1/collections/mobile/initialize_transaction</p>
+      <p style="color: red;">https://sandbox.hurupay.com/v1/collections/mobile/initialize_transaction</p>
 
 Request Headers
 ~~~~~~~~~
@@ -57,9 +47,8 @@ Request Headers
 .. code-block:: javascript
 
     headers: {
-        Authorization: `Bearer ${your-key}`,
         "Content-Type": "application/json"
-        "X-Target-Environment": "your environment"
+        Authorization: `Bearer ${Api-Key}`,
     }
 
 Request Body
@@ -68,14 +57,20 @@ Request Body
 .. code-block:: javascript
 
    {
-    "PhoneNumber":"254704407239",
-    "EmailAddress":"xyz@example.com",
-    "TransactionMethod":"MobileMoney",
-    "Amount":"10",
-    "ISOCurrency":"KES",
-    "WalletAddress":"0x67279306F1e188FD6bEE167203E1bE49661755Bf",
-    "DigitalAsset":"cUSD"
-   }
+        "collection": {
+            "customerName": "John Doe",
+            "customerEmail": "johndoe@gmail.com",
+            "phoneNumber": "+2547XXXXXX",
+            "countryCode": "KE",
+            "network": "MPESA",
+            "amount":1000
+        },
+        "transfer":{
+            "digitalNetwork":"CELO",
+            "digitalAsset":"cUSD",
+            "walletAddress":"0xD92A06f9e2aB34cbF837D79501f51cacc95A9cb2"
+        }
+    }
 
 Request Response
 ~~~~~~~~
@@ -99,7 +94,7 @@ Initially you'll get an immediate feedback like the one below if your API reques
          "ResponseDescription": "Collection request accepted for processing"
       }
 
-Later after successful execution, your webhook url will be called and you'll get full overview of the collection request initiated. Check :doc:`webhooks` for more information
+Later after successful execution, your webhook url will be called and you'll get full overview of the collection request initiated. Check :doc:`webhook` for more information
 
 2. GET /collections/query_transaction/{collectionRequestId}
 ~~~~~~~~~
@@ -112,7 +107,7 @@ GET Request URL
 ~~~~~~~~~
 .. raw:: html
 
-      <p style="color: red;">https://api.hurupay.com/v1/collections/query_transaction/{collectionRequestId}</p>
+      <p style="color: red;">https://sandbox.hurupay.com/v1/collections/query_transaction/{collectionRequestId}</p>
 
 Request Headers
 ~~~~~~~~~
@@ -152,11 +147,11 @@ Result Code Descriptions
 +-------------+------------------------------------------------+
 | Status Code | Message                                        | 
 +=============+================================================+
-| 0           | The collection transaction is pending          | 
+| 0           | The collection transaction was successfull     | 
 +-------------+------------------------------------------------+
 | 1032        | Transaction process was cancelled.             | 
 +-------------+------------------------------------------------+
-| 1           | The collection transaction was successfull     | 
+| 1           | The collection transaction failed              | 
 +-------------+------------------------------------------------+
 
 

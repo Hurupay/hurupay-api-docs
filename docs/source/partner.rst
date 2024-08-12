@@ -1,5 +1,6 @@
 Partner
 =======
+This API service will help you create a partner integrator 
 
 .. _partner:
 
