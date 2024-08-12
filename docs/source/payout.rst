@@ -10,7 +10,7 @@ The API service facilitates seamless integration of various mobile money wallets
 
 Base URL
 ^^^^^^^^
-The URL for collections API is https://api.hurupay.com/v1
+The URL for collections API is https://sandbox.hurupay.com/v1
 
 Authentication
 ^^^^^^^^^^^^^^
@@ -33,7 +33,7 @@ POST Request URL
 ~~~~~~~~~
 .. raw:: html
 
-      <p style="color: red;">https://api.hurupay.com/v1/payouts/mobile/initialize_transaction</p>
+      <p style="color: red;">https://sandbox.hurupay.com/v1/payouts/mobile/initialize_transaction</p>
 
 Request Headers
 ~~~~~~~~~
@@ -95,7 +95,7 @@ GET Request URL
 ~~~~~~~~~~~~~~~
 .. raw:: html
 
-      <p style="color: red;">https://api.hurupay.com/v1/payouts/query_transaction/{payoutRequestId}</p>
+      <p style="color: red;">https://sandbox.hurupay.com/v1/payouts/query_transaction/{payoutRequestId}</p>
 
 Request Headers
 ~~~~~~~~~
