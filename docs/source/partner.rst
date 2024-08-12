@@ -52,7 +52,7 @@ Partner Authentication
 ----------------------
 
 Sign in authentication
-^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 After successfully creating partner account you need to authorize your account in order to get access_token and refresh_token. 
 This API will send you a magic hash to your email that you will you use to authorize your account.
