@@ -1,133 +1,182 @@
-Partner
-=======
-This API service will help you create a partner integrator 
+Partner Integration Guide
+=========================
+
+Welcome to the Partner API service! This documentation will guide you through the steps to integrate your system as a partner with Hurupay, enabling seamless interaction with our services.
 
 .. _partner:
 
 Base URL
 --------
-BASE URL is https://sandbox.hurupay.com/v1
+The base URL for accessing the Hurupay Partner API in the sandbox environment is:
 
-Create Partner
---------------
+**BASE URL:** `https://sandbox.hurupay.com/v1`
 
-POST Request URL 
+Create a Partner Account
+-------------------------
 
-.. raw:: html
+To get started, you'll need to create a partner account. This is your gateway to accessing all the features of the Hurupay API.
 
-      <p style="color: red;">https://sandbox.hurupay.com/v1/partner</p>
+**Endpoint**
 
-Request Body
+**POST Request URL:** 
+
+.. code-block:: console
+
+      POST https://sandbox.hurupay.com/v1/partner
+
+**Request Body**
+
+Supply the following JSON object with your details:
 
 .. code-block:: javascript
 
-   {
-    "companyName":"XYZ Limited",
-    "firstName":"John",
-    "lastName":"Doe",
-    "email":"johndoe@gmail.com",
-    "phoneNumber":"+2547XXXXXXXX",
-    "countryCode":"KE"
+    {
+      "companyName":"XYZ Limited",
+      "firstName":"John",
+      "lastName":"Doe",
+      "email":"johndoe@gmail.com",
+      "phoneNumber":"+2547XXXXXXXX",
+      "countryCode":"KE"
     }
 
-Successful Request Response
+**Successful Response**
+
+Upon successful creation, you'll receive the following response:
 
 .. code-block:: javascript
       
-      {
-        "success": true,
-        "message": "partner created successfully",
-        "data": {
-            "_id": "66b9cf56c66c6047aebb8b0d",
-            "companyName": "XYZ Limited",
-            "firstName": "John",
-            "lastName": "Doe",
-            "email": "johndoe@gmail.com",
-            "phoneNumber": "+2547XXXXXXXX",
-            "countryCode": "KE",
-            }
-       } 
+    {
+      "success": true,
+      "message": "Partner created successfully",
+      "data": {
+        "_id": "66b9cf56c66c6047aebb8b0d",
+        "companyName": "XYZ Limited",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "johndoe@gmail.com",
+        "phoneNumber": "+2547XXXXXXXX",
+        "countryCode": "KE"
+      }
+    }
 
 Partner Authentication
-----------------------
+-----------------------
 
-Sign in authentication
-^^^^^^^^^^^^^^^^^^^^
+Once you've created your partner account, you'll need to authenticate to gain access to secure endpoints.
 
-After successfully creating partner account you need to authorize your account in order to get access_token and refresh_token. 
-This API will send you a magic hash to your email that you will you use to authorize your account.
+**Sign-In Authentication**
 
-POST Request URL 
+This process sends a magic hash to your registered email, which you'll use to authorize your account.
 
-.. raw:: html
+**POST Request URL:**
 
-      <p style="color: red;">https://sandbox.hurupay.com/v1/auth/login</p>
+.. code-block:: console
 
-Request Body
+      POST https://sandbox.hurupay.com/v1/auth/login
+
+**Request Body**
+
+Include your registered email address:
 
 .. code-block:: javascript
 
-   {
-    "email":"johndoe@gmail.com",
+    {
+      "email":"johndoe@gmail.com"
     }
 
-Successful Request Response
+**Successful Response**
+
+If successful, you'll receive a confirmation message:
 
 .. code-block:: javascript
       
-      {
-        "success": true,
-        "message": "magic hash for authorization has has been sent to your email",
-        "data": {}
-      } 
+    {
+      "success": true,
+      "message": "Magic hash for authorization has been sent to your email",
+      "data": {}
+    } 
 
-Authorize partner account
-^^^^^^^^^^^^^^^^^^^^^^^^
+**Authorize Partner Account**
 
-Use the magic hash received in your email to authorize your partner account in order to get access_token for your next action
+Use the magic hash from your email to complete the authorization and retrieve your access tokens.
 
-GET Request URL 
+**GET Request URL:**
 
-.. raw:: html
+.. code-block:: console
 
-      <p style="color: red;">https://sandbox.hurupay.com/v1/auth/verify?hash={magichash}</p>
+      GET https://sandbox.hurupay.com/v1/auth/verify?hash={magichash}
 
-Successful Request Response
+**Successful Response**
 
-.. code-block:: javascript
-      
-      {
-        "success": true,
-        "message": "authorization successful",
-        "data": {
-            "partnerId": "66b9cf56c66c6047aebb8b0d",
-            "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmI5Y2Y1NmM2NmM2MDQ3YWViYjhiMGQiLCJjb21wYW55TmFtZSI6Ikh1cnVwYXkgQ29tcGFueSBMaW1pdGVkIiwiZmlyc3ROYW1lIjoiTWF4d2VsIiwibGFzdE5hbWUiOiJPY2hpZW5nIiwiZW1haWwiOiJlbmcubWF4d2VsLm9jaGllbmdAZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIrMjU0NzA0NDA3MjM5IiwiY291bnRyeUNvZGUiOiJLRSIsImlzQWRtaW4iOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDI0LTA4LTEyVDA5OjAxOjEwLjQ4MloiLCJ1cGRhdGVkQXQiOiIyMDI0LTA4LTEyVDA5OjAxOjEwLjQ4MloiLCJfX3YiOjAsImlhdCI6MTcyMzQ1NDY2MywiZXhwIjoxNzIzNTQxMDYzfQ.ayVp3LjzzCqN5j93mWH6td6wN1ObaTkEhmWCQxpgpbu-Oln_uVuBmiEo7S6O4E6wbZtB-zTSt1gicUE8dZtfQTxhD8t_-zG5yLG-76KgMv-wPwmTIkN5Agug17563RS-czFVkJAgErHO-u66CJAD-RvI3VkHNSO3XDh02Ac3P8ReWQMdUdLg_cY_y3aXbivcT2NinAhRp1YJ6-JAgHjUGxgguIHDMZ_WpAQ6fJN-oAbHyFXJb-aiVtML115fto0tDOXPtCObMQGxcfTSdds0xqxcRipP7Q2cnEULM49sNyj1BG-1mn_TgPkjgeRwhDylugRDzuXAk46ku0BOSfMZCQ",
-            "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiNjZiOWQ0YzdjNjZjNjA0N2FlYmI4YjE1IiwiaWF0IjoxNzIzNDU0NjYzLCJleHAiOjE3MjM0NTQ3MjN9.WkZqXLAzPemm4o44JEEhZ9t8sMt3UAvToiooXyjIF-e6Ip1gA1Sg1VZBU1101foLyiEWO1epDRO-XqKaImxcSCcZ_igaqT8cVOtu3EFFh1o2DrtTnt4aGuKvicC3E-W8irLfnGMAY9Qp0b7gN0Kt3UqyHjMB-YidG6C_xUyyD69tW0k2c2wO_OQXkCSwtT-O6cE986Iy6HFMyMcst_8IHQhEgsgloBz2mC-oVRRQ8Urujb_YLCCOJmI_9xapsglk_GJnguRbjGXZXRLPnR_5cuNdTcSliVIYZEQXpLHvbqKV8FeUXf96enIn0Dj5L3-gJfAh_EkXVMLLPVxIEHocRQ"
-            }
-        } 
-
-Generate Partner API Key
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-After successfully generating your access token, use it to generate your API KEY that you'll use in the other sections of the API such as collections, payouts and webhhoks.
-
-GET Request URL 
-
-.. raw:: html
-
-      <p style="color: red;">https://sandbox.hurupay.com/v1/auth/api_key?token={accessToken}</p>
-
-Successful Request Response
+A successful authorization will return your partner ID and tokens:
 
 .. code-block:: javascript
       
-      {
-        "success": true,
-        "message": "Api-Key generated successfully",
-        "data": {
-            "apiKey": {
-                "partnerId": "66b9cf56c66c6047aebb8b0d",
-                "apiKey": "hp_sk_314hhafycbilipfkyvmptdpfdfrm54rthnm27jpi",
-            }
+    {
+      "success": true,
+      "message": "Authorization successful",
+      "data": {
+        "partnerId": "66b9cf56c66c6047aebb8b0d",
+        "access_token": "your_access_token_here",
+        "refresh_token": "your_refresh_token_here"
+      }
+    }
+
+Generate Your API Key
+---------------------
+
+With your access token in hand, you can now generate your API key, which is essential for making secure API requests.
+
+**GET Request URL:**
+
+.. code-block:: console
+
+      GET https://sandbox.hurupay.com/v1/auth/api_key?token={accessToken}
+
+**Successful Response**
+
+Your API key will be returned in the following format:
+
+.. code-block:: javascript
+      
+    {
+      "success": true,
+      "message": "API Key generated successfully",
+      "data": {
+        "apiKey": {
+          "partnerId": "66b9cf56c66c6047aebb8b0d",
+          "apiKey": "your_api_key_here"
         }
-      } 
+      }
+    }
+
+Retrieve Partner Information
+----------------------------
+
+You can fetch details about your partner integrator account at any time using the endpoint below.
+
+**GET Request URL:**
+
+.. code-block:: console
+
+      GET https://sandbox.hurupay.com/v1/partner?token={accessToken}
+
+**Successful Response**
+
+If the request is successful, you'll receive the following response:
+
+.. code-block:: javascript
+
+    {
+      "success": true,
+      "message": "Partner record successfully retrieved",
+      "data": {
+        "_id": "66bc4d75d8deec854010a9a9",
+        "companyName": "XYZ Company",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "johndoe@gmail.com",
+        "phoneNumber": "+2547XXXXXXX",
+        "countryCode": "KE"
+      }
+    }

@@ -1,144 +1,191 @@
-Payouts
-=======
-
-Mobile Money
-------------
+Mobile Money Payouts (Off Ramp)
+===============================
 
 Overview
 ^^^^^^^^
-The API service facilitates seamless integration of various mobile money wallets and mobile services across listed countries. It supports notable providers such as Safaricom and MTN, enabling clients to streamline the process of converting stable coins digital assets into equivalent fiat amount. This service is designed to assist with off-ramping supported stable coins(**cUSD & USDT**).
+Unlock seamless conversion of digital assets into local currency with **Hurupay’s Mobile Money Payouts**. This API service integrates effortlessly with various mobile money wallets and services across multiple countries, supporting major providers like **Safaricom** and **MTN**. Whether you're off-ramping **cUSD** or **USDT**, our platform ensures a smooth transition from stable coins to fiat currency.
 
 Base URL
 ^^^^^^^^
-The URL for collections API is https://sandbox.hurupay.com/v1
+For all payout requests, use the following URL:
+
+.. code-block:: text
+
+    https://sandbox.hurupay.com/v1
 
 Authentication
 ^^^^^^^^^^^^^^
-The collection API uses client's apikey **(sandbox key or production key)**. Include your `client key` and `x-target-environment` in each request headers to the API.
-
-.. note::
-
-      X-Target-Environment value should match your private key:
-
-      * For sandbox key, use `sandbox` as X-Target-Environment
-      * For production key, use `production` as X-Target-Environment
+To access the payout API, include your partner’s API key (sandbox or production) in the request headers. This key authenticates your requests, ensuring secure communication with Hurupay's servers.
 
 Endpoints
-^^^^^^^^
+^^^^^^^^^
 
-1. POST /payouts/mobile/initialize_transaction
-~~~~~~~~~
+1. POST /payouts/mobile/initialize_transaction/request
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Initiate the off-ramp process by generating a wallet address where you’ll send the tokens. This step provides a transaction hash required for subsequent operations.
 
-POST Request URL 
-~~~~~~~~~
-.. raw:: html
+**POST Request URL**
 
-      <p style="color: red;">https://sandbox.hurupay.com/v1/payouts/mobile/initialize_transaction</p>
+.. code-block:: console
 
-Request Headers
-~~~~~~~~~
+    POST https://sandbox.hurupay.com/v1/payouts/mobile/initialize_transaction/request
+
+**Request Headers**
 
 .. code-block:: javascript
 
     headers: {
-        Authorization: `Bearer ${your-key}`,
-        "Content-Type": "application/json"
-        "X-Target-Environment": "your environment"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${your-api-key}`,
     }
 
-Request Body
-~~~~~~~~~
+**Request Body**
 
 .. code-block:: javascript
 
     {
-        "TransactionHash":"0x697fbcd3bae946ae2c6c887899adc6e62addae3bd2ee5eb6203374d5ee1e19d8",
-        "PhoneNumber":"254720000000",
-        "EmailAddress":"xyz@example.com",
-        "ISOCurrency":"GHS"
+        "sendingAddress": "0xD92A06f9e2aB34cbF837D79501f51cacc95A9cb2",
+        "amountSending": "1",
+        "network": "CELO",
+        "token": "cUSD"
     }
 
-Request Response
-~~~~~~~~
-Initially you'll get an immediate feedback like the one below if your API request is successfull.
+**Successful Response**
 
-Later after successful execution, your webhook url will be called and you'll get full overview of the payout request initiated. Check :doc:`webhooks` for more information
+Upon a successful request, you’ll receive the following response with an escrow address and a unique payout request ID for the next steps:
+
+.. code-block:: javascript
+
+    {
+        "success": true,
+        "message": "Payout request created",
+        "data": {
+            "payoutRequestId": "0e519064-322b-4bdd-a1af-1d3ece747678",
+            "escrowAddress": "0x67279306F1e188FD6bEE167203E1bE49661755Bf"
+        }
+    }
+
+2. POST /payouts/mobile/initialize_transaction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Finalize the off-ramp process by providing the transaction hash and payout request ID obtained from the previous step.
+
+**POST Request URL**
+
+.. code-block:: console
+
+    POST https://sandbox.hurupay.com/v1/payouts/mobile/initialize_transaction
+
+**Request Headers**
+
+.. code-block:: javascript
+
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${your-api-key}`,
+    }
+
+**Request Body**
+
+.. code-block:: javascript
+
+    {
+        "collection": {
+            "transactionHash": "20aa90584c95e7fd67a210bee3a34f7dfb7fbf0c3efa38d0b0b7838cfd145bef",
+            "payoutRequestId": "9d2681ab-440a-403d-bb2b-79123ee1ace9",
+            "network": "CELO",
+            "token": "cUSD"
+        },
+        "transfer": {
+            "customerName": "John Doe",
+            "phoneNumber": "+2547XXXXXXX",
+            "countryCode": "KE",
+            "network": "MPESA"
+        }
+    }
+
+**Immediate Response**
+
+You will receive an immediate response confirming that the payout request was accepted for processing. For the full details of the payout transaction, refer to the **webhooks** section.
 
 .. raw:: html
 
     <div>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PartnerRequestID:</span> [string] Client id.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PayoutRequestID:</span> [string] Unique collection request id.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PartnerRequestID:</span> [string] Client ID.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PayoutRequestID:</span> [string] Unique collection request ID.</p>
       <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResponseCode:</span> [number] Response code.</p>
       <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResponseDescription:</span> [string] Response code description.</p>
     </div>
 
 .. code-block:: javascript
-      
-      {
-         "PartnerRequestID": "66386452d8d95fb8b8870859",
-         "PayoutRequestID": "e3e73daf-e257-4f90-9077-291471ec6157",
-         "ResponseCode": 1,
-         "ResponseDescription": "Payout request accepted for processing"
-      }
 
-2. GET /payouts/mobile/query_transaction/{payoutRequestId}
-~~~~~~~~~
+    {
+        "success": true,
+        "message": "Payout request accepted for processing",
+        "data": {
+            "ResultCode": 1,
+            "PartnerRequestID": "66bc4d75d8deec854010a9a9",
+            "ResultDescription": "Success. Process accepted for processing"
+        }
+    }
 
-Overview
-~~~~~~~
-This API is used to query the status of a payout request.
+3. GET /payouts/mobile/query_transaction/{payoutRequestId}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Use this endpoint to query the status of a payout request. The status will remain **pending** (ResultCode: 0) until the B2C transaction is complete.
 
-The status of the payout will be on pending status (**ResultCode:0**) until the B2C transaction is complete.
+**GET Request URL**
 
-GET Request URL 
-~~~~~~~~~~~~~~~
-.. raw:: html
+.. code-block:: console
 
-      <p style="color: red;">https://sandbox.hurupay.com/v1/payouts/query_transaction/{payoutRequestId}</p>
+    GET https://sandbox.hurupay.com/v1/payouts/query_transaction/{payoutRequestId}
 
-Request Headers
-~~~~~~~~~
+**Request Headers**
 
 .. code-block:: javascript
 
     headers: {
-        Authorization: `Bearer ${your-key}`,
-        "Content-Type": "application/json"
-        "X-Target-Environment": "your environment"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${your-api-key}`
     }
 
+**Response**
 
-Response
-~~~~~~~~
-You'll get an immediate feedback like the one below if your API request is successfull.
-
-.. raw:: html
-
-    <div>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResultCode:</span> [number] Collection request code status.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PartnerRequestID:</span> [string] Client id.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PayoutRequestID:</span> [string] Collection request Id.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResultDescription:</span> [string] Status code result description.</p>
-    </div>
+If successful, you'll receive a response similar to the one below, indicating the transaction status.
 
 .. code-block:: javascript
-      
-      {
-         "ResultCode": 1,
-         "PartnerRequestID": "66386452d8d95fb8b8870859",
-         "PayoutRequestID": "7cf7a5c5-7c69-4ef4-8aa1-2e3371a97a47",
-         "ResultDescription": "The service request has been proccesed successfully"
-      }
+
+    {
+        "success": true,
+        "message": "Payout transaction received",
+        "data": {
+            "ResponseCode": 0,
+            "ResponseCodeDescription": "Payout transaction process completed",
+            "ResultCode": 0,
+            "ResultCodeDescription": "Offramp transaction was completed successfully",
+            "PartnerRequestID": "66bc4d75d8deec854010a9a9",
+            "PayoutRequestID": "0e519064-322b-4bdd-a1af-1d3ece747678"
+        }
+    }
 
 Result Code Descriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~
+Understanding the meaning of different status codes:
+
 +-------------+-------------------------------------------------------+
 | Status Code | Message                                               | 
 +=============+=======================================================+
-| 0           | The payout request transaction is pending             | 
+| 0           | The off-ramp request is completed successfully        | 
 +-------------+-------------------------------------------------------+
-| 1032        | Payout request was deemed invalid due to some reasons | 
+| 1           | The off-ramp transaction was unsuccessful             | 
 +-------------+-------------------------------------------------------+
-| 1           | The collection transaction was successfull            | 
+
+Response Code Descriptions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Detailed explanation of response codes:
+
++-------------+-------------------------------------------------------+
+| Status Code | Message                                               | 
++=============+=======================================================+
+| 0           | The transaction was completed (failed or successful)  | 
++-------------+-------------------------------------------------------+ 
+| 1           | The transaction is not complete yet (pending)         | 
 +-------------+-------------------------------------------------------+

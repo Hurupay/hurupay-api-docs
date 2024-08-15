@@ -30,7 +30,9 @@ Contents
 
 .. toctree::
    partner
+   exchange_rate
+   chain_token
    collection
    payout
-   exchange_rate
    webhook
+   

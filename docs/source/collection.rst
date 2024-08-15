@@ -1,58 +1,55 @@
-Collections (On Ramp)
-====================
-
-.. _mobile_money:
-
-On Ramp Mobile Money
--------------------
+Mobile Money Collections (On Ramp)
+=================================
 
 Overview
 ^^^^^^^^
-The API service facilitates seamless integration of various mobile money wallets and mobile services across listed countries. It supports notable providers such as Safaricom, Airtel,MTN, TIGO enabling clients to streamline the process of converting local currencies into equivalent stablecoin dollars. This service is designed to assist with on-ramping, ensuring a smooth transition into the digital currency ecosystem.
+The **Hurupay API** service enables seamless integration with various mobile money wallets and services across supported countries. It connects with top providers like **Safaricom (MPESA)**, **Airtel**, **MTN**, and **TIGO**, facilitating the conversion of local currencies into stablecoins. This service is essential for clients looking to onboard into the digital currency ecosystem efficiently.
 
 .. note::
    The mobile money service is currently available in:
 
-   * `Kenya (MPESA)`,
-   * `Ghana (MTN,VODAFONE,TIGO,AIRTEL)`,
-   * `Tanzania (MTN, VODACOM, TIGO, AIRTEL)`, 
+   * **Kenya (MPESA)**
+   * **Ghana (MTN, VODAFONE, TIGO, AIRTEL)**
+   * **Tanzania (MTN, VODACOM, TIGO, AIRTEL)**
 
 Base URL
+^^^^^^^^
+The BASE URL for the API is:
 
-The BASE URL is https://sandbox.hurupay.com/v1
+`https://sandbox.hurupay.com/v1`
 
 Authentication
 ^^^^^^^^^^^^^^
-The collection API uses partner's apikey **(sandbox key or production key)**. Include your `partner api key` in each request headers to the API.
+To access the collection API, use your partner's API key (either sandbox or production). Include this key in the request headers for authentication.
 
 Endpoints
 ^^^^^^^^^
 
 1. POST /collections/mobile/initialize_transaction
-~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Overview
-~~~~~~~
-This endpoint is used to facilitate the deposit of digital assets or tokens to a user's wallet address. The phone number provided in the request body will receive a request-to-pay prompt. If the user successfully completes the request, Hurupay will credit the user's wallet address with the respective amount of digital assets, both provided in the request body. The token amount is determined according to Hurupay's :doc:`exchange_rates` API Service.
+~~~~~~~~
+This endpoint is used to deposit digital assets into a user's wallet. The user will receive a request-to-pay prompt on their mobile device. Upon successful payment, Hurupay will credit the specified wallet address with the corresponding digital assets. The token amount is calculated using Hurupay's :doc:`exchange_rates` API Service.
 
 POST Request URL 
-~~~~~~~~~
-.. raw:: html
+~~~~~~~~~~~~~~~~~
+.. code-block:: console
 
-      <p style="color: red;">https://sandbox.hurupay.com/v1/collections/mobile/initialize_transaction</p>
+    GET https://sandbox.hurupay.com/v1/collections/mobile/initialize_transaction
 
 Request Headers
-~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
     headers: {
-        "Content-Type": "application/json"
-        Authorization: `Bearer ${Api-Key}`,
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${Your-Api-Key}`,
     }
 
 Request Body
-~~~~~~~~~
+~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -63,98 +60,105 @@ Request Body
             "phoneNumber": "+2547XXXXXX",
             "countryCode": "KE",
             "network": "MPESA",
-            "amount":1000
+            "amount": 1
         },
-        "transfer":{
-            "digitalNetwork":"CELO",
-            "digitalAsset":"cUSD",
-            "walletAddress":"0xD92A06f9e2aB34cbF837D79501f51cacc95A9cb2"
+        "transfer": {
+            "digitalNetwork": "CELO",
+            "digitalAsset": "cUSD",
+            "walletAddress": "0xD92A06f9e2aB34cbF837D79501f51cacc95A9cb2"
         }
     }
 
 Request Response
-~~~~~~~~
-Initially you'll get an immediate feedback like the one below if your API request is successfull.
+~~~~~~~~~~~~~~~~
+Initially, you'll get an immediate feedback like the one below if your API request is successful.
 
 .. raw:: html
 
     <div>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PartnerRequestID:</span> [string] Client id.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">CollectionRequestID:</span> [string] Unique collection request id.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PartnerRequestID:</span> [string] Client ID.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">CollectionRequestID:</span> [string] Unique collection request ID.</p>
       <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResponseCode:</span> [number] Response code.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResponseDescription:</span> [string] Response code description.</p>
+      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResponseDescription:</span> [string] Response description.</p>
     </div>
 
 .. code-block:: javascript
       
-      {
-         "PartnerRequestID": "66386452d8d95fb8b8870859",
-         "CollectionRequestID": "e3e73daf-e257-4f90-9077-291471ec6157",
-         "ResponseCode": 1,
-         "ResponseDescription": "Collection request accepted for processing"
-      }
+    {
+        "success": true,
+        "message": "Collection request accepted for processing",
+        "data": {
+            "PartnerRequestID": "66bc4d75d8deec854010a9a9",
+            "CollectionRequestID": "cd4d492f-9017-4c4a-85c7-76607ce7fe68",
+            "ResponseCode": 1,
+            "ResponseDescription": "Collection request accepted for processing"
+        }
+    }
 
-Later after successful execution, your webhook url will be called and you'll get full overview of the collection request initiated. Check :doc:`webhook` for more information
+Later, after successful execution, your webhook URL will be called and you'll get a full overview of the collection request initiated. Check :doc:`webhook` for more information.
 
 2. GET /collections/query_transaction/{collectionRequestId}
-~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Overview
-~~~~~~~
+~~~~~~~~
 This API is used to query the status of a collection request.
 
 GET Request URL 
-~~~~~~~~~
-.. raw:: html
+~~~~~~~~~~~~~~~
+.. code-block:: console
 
-      <p style="color: red;">https://sandbox.hurupay.com/v1/collections/query_transaction/{collectionRequestId}</p>
+    GET https://sandbox.hurupay.com/v1/collections/query_transaction/{collectionRequestId}
 
 Request Headers
-~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
     headers: {
-        Authorization: `Bearer ${your-key}`,
-        "Content-Type": "application/json"
-        "X-Target-Environment": "your environment"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${your-key}`,
     }
 
 Response
 ~~~~~~~~
-You'll get an immediate feedback like the one below if your API request is successfull.
-
-.. raw:: html
-
-    <div>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResultCode:</span> [number] Collection request code status.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">PartnerRequestID:</span> [string] Client id.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">CollectionRequestID:</span> [string] Collection request Id.</p>
-      <p><span style="color: red; border: 1px solid #000; padding: 5px;">ResultDescription:</span> [string] Status code result description.</p>
-    </div>
 
 .. code-block:: javascript
-      
-      {
-         "ResultCode": 1,
-         "PartnerRequestID": "66386452d8d95fb8b8870859",
-         "CollectionRequestID": "7cf7a5c5-7c69-4ef4-8aa1-2e3371a97a47",
-         "ResultDescription": "The service request has been proccesed successfully"
-      }
+
+    {
+        "success": true,
+        "message": "Collection transaction retrieved successfully",
+        "data": {
+            "ResponseCode": 0,
+            "ResponseCodeDescription": "Service request completed",
+            "ResultCode": 0,
+            "ResultCodeDescription": "onramp transaction was completed successfuly",
+            "CollectionRequestID": "cd4d492f-9017-4c4a-85c7-76607ce7fe68"
+        }
+    }
+
 
 Result Code Descriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~
-+-------------+------------------------------------------------+
-| Status Code | Message                                        | 
-+=============+================================================+
-| 0           | The collection transaction was successfull     | 
-+-------------+------------------------------------------------+
-| 1032        | Transaction process was cancelled.             | 
-+-------------+------------------------------------------------+
-| 1           | The collection transaction failed              | 
-+-------------+------------------------------------------------+
++-------------+-------------------------------------------------------+
+| Status Code | Message                                               | 
++=============+=======================================================+
+| 0           | The offramp request is completed successfully         | 
++-------------+-------------------------------------------------------+
++-------------+-------------------------------------------------------+
+| 1           | The off ramp transaction was unsuccessfull            | 
++-------------+-------------------------------------------------------+
 
-
+Response Code Descriptions
+~~~~~~~~~~~~~~~~~~~~~~~~
++-------------+-------------------------------------------------------+
+| Status Code | Message                                               | 
++=============+=======================================================+
+| 0           | The transaction was completed (failed or successful)  | 
++-------------+-------------------------------------------------------+ 
++-------------+-------------------------------------------------------+
+| 1           | The transaction is not complete yet (pending)         | 
++-------------+-------------------------------------------------------+
 
 .. autosummary::
    :toctree: generated
