@@ -26,16 +26,17 @@ The exchange API uses client's apikey **(sandbox key or production key)**. Inclu
     
     Base currency is USD
 
-    Below is a list of accepted/supported currency for this API service:
+    Below is a list of accepted/supported **to** currency for this API service:
+
     - KES
     - GHS
     - TZS
-    - CMR
+    - XAF
 
 Endpoints
 ^^^^^^^^^
 
-GET /exchange/transfer_rate?from=KES&to=UGX
+GET /exchange/transfer_rate?from=${fromCurrency}&to={toCurrency}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Get the withdrawal rate for a specific currency.
