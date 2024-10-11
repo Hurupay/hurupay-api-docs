@@ -195,91 +195,7 @@ You’ll receive a confirmation like this:
         "data": {}
     }
 
-Webhook Signature Verification
--------------------------------
-
-Each webhook sent will include a signature in the header with `x-webhook-signature`, which consists of the request body. This can be verified using the webhook's public key.
-
-**Javascript Verification Function**
-
-.. code-block:: javascript
-
-    import crypto from 'crypto';
-
-    function verifyWebhookSignature(body: string, signature: string, publicKey: string): boolean {
-        const hash = crypto.createHash('SHA256');
-        hash.update(body);
-        const hashedData = hash.digest('hex');
-
-        // Create a verifier for SHA256
-        const verifier = crypto.createVerify('SHA256');
-        verifier.update(hashedData);
-        verifier.end();
-
-        // Verify the signature using the public key
-        return verifier.verify(publicKey, Buffer.from(signature, 'base64'));
-    }
-
-**Ruby Verification Function**
-
-.. code-block:: ruby
-
-    require 'openssl'
-    
-    def verify_webhook_signature(body, signature, public_key)
-      hashed_data = OpenSSL::Digest::SHA256.hexdigest(body)
-      verifier = OpenSSL::PKey::RSA.new(public_key)
-      verifier.verify(OpenSSL::Digest::SHA256.new, Base64.decode64(signature), hashed_data)
-    end
-
-**Python Verification Function**
-
-.. code-block:: python
-
-    import hashlib
-    import base64
-    from Crypto.PublicKey import RSA
-    from Crypto.Signature import pkcs1_15
-    
-    def verify_webhook_signature(body: str, signature: str, public_key: str) -> bool:
-        hashed_data = hashlib.sha256(body.encode()).digest()
-        rsa_key = RSA.import_key(public_key)
-        
-        try:
-            pkcs1_15.new(rsa_key).verify(hashed_data, base64.b64decode(signature))
-            return True
-        except (ValueError, TypeError):
-            return False
-
-**Go Verification Function**
-
-.. code-block:: go
-
-    package main
-    
-    import (
-        "crypto/rsa"
-        "crypto/sha256"
-        "encoding/base64"
-        "errors"
-    )
-    
-    func verifyWebhookSignature(body string, signature string, publicKey *rsa.PublicKey) (bool, error) {
-        hashedData := sha256.Sum256([]byte(body))
-        decodedSignature, err := base64.StdEncoding.DecodeString(signature)
-        if err != nil {
-            return false, err
-        }
-
-        err = rsa.VerifyPKCS1v15(publicKey, crypto.SHA256, hashedData[:], decodedSignature)
-        if err != nil {
-            return false, errors.New("signature verification failed")
-        }
-        return true, nil
-    }
-
-
-Webhook/Event Structure
+Webhook Event Structure
 -------------------------------
 
 We have launched webhooks for Collections, Payouts, and User KYC, and we plan to expand support to additional event categories in the coming weeks.
@@ -364,3 +280,89 @@ KYC:
 - `kyc.updated`
 - `kyc.failed`
 - `kyc.successful`
+
+
+Webhook Signature Verification
+-------------------------------
+
+Each webhook sent will include a signature in the header with `x-webhook-signature`, which consists of the request body. This can be verified using the webhook's public key.
+
+**Javascript Verification Function**
+
+.. code-block:: javascript
+
+    import crypto from 'crypto';
+
+    function verifyWebhookSignature(body: string, signature: string, publicKey: string): boolean {
+        const hash = crypto.createHash('SHA256');
+        hash.update(body);
+        const hashedData = hash.digest('hex');
+
+        // Create a verifier for SHA256
+        const verifier = crypto.createVerify('SHA256');
+        verifier.update(hashedData);
+        verifier.end();
+
+        // Verify the signature using the public key
+        return verifier.verify(publicKey, Buffer.from(signature, 'base64'));
+    }
+
+**Ruby Verification Function**
+
+.. code-block:: ruby
+
+    require 'openssl'
+    
+    def verify_webhook_signature(body, signature, public_key)
+      hashed_data = OpenSSL::Digest::SHA256.hexdigest(body)
+      verifier = OpenSSL::PKey::RSA.new(public_key)
+      verifier.verify(OpenSSL::Digest::SHA256.new, Base64.decode64(signature), hashed_data)
+    end
+
+**Python Verification Function**
+
+.. code-block:: python
+
+    import hashlib
+    import base64
+    from Crypto.PublicKey import RSA
+    from Crypto.Signature import pkcs1_15
+    
+    def verify_webhook_signature(body: str, signature: str, public_key: str) -> bool:
+        hashed_data = hashlib.sha256(body.encode()).digest()
+        rsa_key = RSA.import_key(public_key)
+        
+        try:
+            pkcs1_15.new(rsa_key).verify(hashed_data, base64.b64decode(signature))
+            return True
+        except (ValueError, TypeError):
+            return False
+
+**Go Verification Function**
+
+.. code-block:: go
+
+    package main
+    
+    import (
+        "crypto/rsa"
+        "crypto/sha256"
+        "encoding/base64"
+        "errors"
+    )
+    
+    func verifyWebhookSignature(body string, signature string, publicKey *rsa.PublicKey) (bool, error) {
+        hashedData := sha256.Sum256([]byte(body))
+        decodedSignature, err := base64.StdEncoding.DecodeString(signature)
+        if err != nil {
+            return false, err
+        }
+
+        err = rsa.VerifyPKCS1v15(publicKey, crypto.SHA256, hashedData[:], decodedSignature)
+        if err != nil {
+            return false, errors.New("signature verification failed")
+        }
+        return true, nil
+    }
+
+
