@@ -52,10 +52,16 @@ Start by creating a new webhook:
 
 Here’s how your request body should look:
 
+Webhook type can only be:
+
+- `collections`
+- `payouts`
+- `kyc`
+
 .. code-block:: javascript
 
     {
-        "url":"https://hurupay.com/v1/webhooks/global_payout",
+        "url":"https://sandbox.hurupay.com/v1/webhooks/collections/collections_status_update",
         "type":"collections"
     }
 
@@ -70,7 +76,7 @@ Upon a successful creation, you’ll receive the following response:
         "message": "Webhook created successfully",
         "data": {
             "partnerId": "66bbfc205a5ec9406fdd2d5a",
-            "url": "https://hurupay.com/v1/webhooks/global_payout",
+            "url": "https://sandbox.hurupay.com/v1/webhooks/collections/collections_status_update",
             "type": "collections",
             "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/RD+L0L5T1rK212Yv89\nhvbES7DEwgMNvj22xlEij/7Orl6CgEQDuXisjHFqiIWe05tpR6AMWlRrggb9O+kw\nZsMrHWOp9SNcNIsR8rka5fqVSbYE8mXqtw4f4MUbB8AnRQRYIyXvlxMT1eWlXTJo\nokHsiYanA2zx3uXkDs/Ia+8B2/xKvK3UUbVa2I/b+MIWk7y02wHGFE9Zu4J98+uA\nJluS9GUEyGRtxyb+muoApGlxV9j0Qw8zhr1VPb5sjOzGKwAYfiNGNZoE59BFYM9E\nM7PfO+JWSGc6RHwNSsLxVKoj42zv6LQ2nhJ15YMuVKVD5Hb57oR6hQantzZaA3gE\n5wIDAQAB\n-----END PUBLIC KEY-----\n"
         }
@@ -97,7 +103,7 @@ Here’s the response showing your existing webhooks:
         {
             "_id": "670508254bf89d3d77025460",
             "partnerId": "66bbfc205a5ec9406fdd2d5a",
-            "url": "https://hurupay.com/v1/webhooks/global_payout",
+            "url": "https://sandbox.hurupay.com/v1/webhooks/collections/collections_status_update",
             "type": "collections",
             "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/RD+L0L5T1rK212Yv89\nhvbES7DEwgMNvj22xlEij/7Orl6CgEQDuXisjHFqiIWe05tpR6AMWlRrggb9O+kw\nZsMrHWOp9SNcNIsR8rka5fqVSbYE8mXqtw4f4MUbB8AnRQRYIyXvlxMT1eWlXTJo\nokHsiYanA2zx3uXkDs/Ia+8B2/xKvK3UUbVa2I/b+MIWk7y02wHGFE9Zu4J98+uA\nJluS9GUEyGRtxyb+muoApGlxV9j0Qw8zhr1VPb5sjOzGKwAYfiNGNZoE59BFYM9E\nM7PfO+JWSGc6RHwNSsLxVKoj42zv6LQ2nhJ15YMuVKVD5Hb57oR6hQantzZaA3gE\n5wIDAQAB\n-----END PUBLIC KEY-----\n",
             "status": "active"
@@ -125,7 +131,7 @@ Retrieve details about the specified webhook:
         "data": {
             "_id": "670508254bf89d3d77025460",
             "partnerId": "66bbfc205a5ec9406fdd2d5a",
-            "url": "https://hurupay.com/v1/webhooks/global_payout",
+            "url": "https://sandbox.hurupay.com/v1/webhooks/collections/collections_status_update",
             "type": "collections",
             "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/RD+L0L5T1rK212Yv89\nhvbES7DEwgMNvj22xlEij/7Orl6CgEQDuXisjHFqiIWe05tpR6AMWlRrggb9O+kw\nZsMrHWOp9SNcNIsR8rka5fqVSbYE8mXqtw4f4MUbB8AnRQRYIyXvlxMT1eWlXTJo\nokHsiYanA2zx3uXkDs/Ia+8B2/xKvK3UUbVa2I/b+MIWk7y02wHGFE9Zu4J98+uA\nJluS9GUEyGRtxyb+muoApGlxV9j0Qw8zhr1VPb5sjOzGKwAYfiNGNZoE59BFYM9E\nM7PfO+JWSGc6RHwNSsLxVKoj42zv6LQ2nhJ15YMuVKVD5Hb57oR6hQantzZaA3gE\n5wIDAQAB\n-----END PUBLIC KEY-----\n",
             "status": "active"
@@ -162,7 +168,7 @@ Confirmation of the status change:
         "data": {
                 "_id": "670508254bf89d3d77025460",
                 "partnerId": "66bbfc205a5ec9406fdd2d5a",
-                "url": "https://hurupay.com/v1/webhooks/global_payout",
+                "url": "https://sandbox.hurupay.com/v1/webhooks/collections/collections_status_update",
                 "type": "collections",
                 "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/RD+L0L5T1rK212Yv89\nhvbES7DEwgMNvj22xlEij/7Orl6CgEQDuXisjHFqiIWe05tpR6AMWlRrggb9O+kw\nZsMrHWOp9SNcNIsR8rka5fqVSbYE8mXqtw4f4MUbB8AnRQRYIyXvlxMT1eWlXTJo\nokHsiYanA2zx3uXkDs/Ia+8B2/xKvK3UUbVa2I/b+MIWk7y02wHGFE9Zu4J98+uA\nJluS9GUEyGRtxyb+muoApGlxV9j0Qw8zhr1VPb5sjOzGKwAYfiNGNZoE59BFYM9E\nM7PfO+JWSGc6RHwNSsLxVKoj42zv6LQ2nhJ15YMuVKVD5Hb57oR6hQantzZaA3gE\n5wIDAQAB\n-----END PUBLIC KEY-----\n",
                 "status": "active"
